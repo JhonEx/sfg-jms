@@ -1,8 +1,6 @@
 package guru.springframework.sfgjms;
 
-import org.apache.activemq.artemis.core.config.impl.ConfigurationImpl;
-import org.apache.activemq.artemis.core.server.ActiveMQServer;
-import org.apache.activemq.artemis.core.server.ActiveMQServers;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -11,15 +9,16 @@ public class SfgJmsApplication {
 
     public static void main(String[] args) throws Exception {
 
-        //set up of activemq server.
-        ActiveMQServer server = ActiveMQServers.newActiveMQServer(
-                new ConfigurationImpl()
-                        .setPersistenceEnabled(false)
-                        .setJournalDirectory("target/data/journal")
-                        .setSecurityEnabled(false)
-                        .addAcceptorConfiguration("invm", "vm://0"));
-
-                server.start();
+        //set up of embedded activemq server.
+        //commented below out  and dependencies because of docker ActiveMQ
+//        ActiveMQServer server = ActiveMQServers.newActiveMQServer(
+//                new ConfigurationImpl()
+//                        .setPersistenceEnabled(false)
+//                        .setJournalDirectory("target/data/journal")
+//                        .setSecurityEnabled(false)
+//                        .addAcceptorConfiguration("invm", "vm://0"));
+//
+//                server.start();
 
         SpringApplication.run(SfgJmsApplication.class, args);
     }

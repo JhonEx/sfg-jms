@@ -11,12 +11,13 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
+
 import javax.jms.Message;
 import javax.jms.Session;
 import java.util.UUID;
 
 @Component
-public class HelloSender {
+public class HelloSender{
     private final JmsTemplate jmsTemplate;
     private final ObjectMapper objectMapper;
 
@@ -25,7 +26,7 @@ public class HelloSender {
         this.objectMapper = objectMapper;
     }
 
-//    @Scheduled(fixedRate = 2000)
+    @Scheduled(fixedRate = 2000)
     public void sendMessage(){
         System.out.println("Sending message from sendMessage()");
 

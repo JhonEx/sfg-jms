@@ -9,11 +9,12 @@ import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import java.util.UUID;
 
-@Component
+@Component //comment out to let artemismq docker to pick us messages
 public class HelloMessageListener {
 
     private final JmsTemplate jmsTemplate;
@@ -32,10 +33,13 @@ public class HelloMessageListener {
 //        throw new RuntimeException("Error Runtime");
 
     }
+
+
+//    org.springframework.messaging.Message testing abstraction btw spring Message and JMS Message activemq
     @JmsListener(destination = JmsConfig.MY_SEND_RCV_QUEUE)
     public void listenForHelloSendReceive(@Payload HelloWorldMessage helloWorldMessage,
-                       @Headers MessageHeaders headers,
-                       Message message) throws JMSException {
+                       @Headers MessageHeaders headers, Message message,
+                                          org.springframework.messaging.Message springMessage) throws JMSException {
 
         System.out.println("Got message, this is the payload from send HelloSender" + helloWorldMessage);
 
@@ -44,6 +48,8 @@ public class HelloMessageListener {
                 .id(UUID.randomUUID())
                 .message("World!")
                 .build();
+
+  //      jmsTemplate.convertAndSend((Destination) springMessage.getHeaders().get("jms_replyTo"), "got it");
 
         jmsTemplate.convertAndSend(message.getJMSReplyTo(), payloadMsg );
         //        throw new RuntimeException("Error Runtime");
